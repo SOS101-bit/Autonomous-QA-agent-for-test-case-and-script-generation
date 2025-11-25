@@ -67,7 +67,7 @@ def build_processed_dataset(
             content = extract_text_from_pdf(os.path.join(docs_dir,file))
             combined += f"\n\n### PDF DOC: {file}\n{content}\n"
 
-        if ext in ["txt", "md", "json"]:
+        elif ext in ["txt", "md", "json"]:
             content = read_support_doc(os.path.join(docs_dir, file))
             combined += f"\n\n### SUPPORT DOC: {file}\n{content}\n"
 
