@@ -18,7 +18,7 @@ This README includes:
 
 ---
 
-## 🚀 Features
+## Features
 
 * Upload project HTML + support documentation
 * Build a local knowledge base using FAISS
@@ -29,7 +29,7 @@ This README includes:
 
 ---
 
-# 📦 1. Installation & Setup
+# 1. Installation & Setup
 
 ### ✔ Python Version
 
@@ -92,7 +92,7 @@ project/
 
 ---
 
-# ▶️ 3. Running the Backend (FastAPI)
+# 3. Running the Backend (FastAPI)
 
 Start FastAPI server:
 
@@ -117,7 +117,7 @@ http://localhost:8000
 
 ---
 
-# 🖥️ 4. Running the Frontend (Streamlit UI)
+# 4. Running the Frontend (Streamlit UI)
 
 Start Streamlit:
 
@@ -133,7 +133,7 @@ http://localhost:8501
 
 ---
 
-# 📘 5. Usage Flow (Step-by-Step)
+# 5. Usage Flow (Step-by-Step)
 
 ## **Step 1 — Upload Files & Build KB**
 
@@ -176,7 +176,7 @@ st.session_state["parsed_test_cases"]
 
 ---
 
-# 🧪 6. Example Test Case Request
+# 6. Example Test Case Request
 
 ```
 Generate 5 positive and negative test cases for checkout form validation.
@@ -200,7 +200,7 @@ Return strictly in JSON.
 
 ---
 
-# 📄 7. Explanation of Support Documents
+# 7. Explanation of Support Documents
 
 Support documents help the RAG engine understand your system.
 
@@ -222,7 +222,7 @@ These files improve:
 
 ---
 
-# 🧠 8. How RAG Works Internally
+# 8. How RAG Works Internally
 
 1. Upload docs → merged into a text dataset
 2. Chunk text + embed using Sentence Transformers
@@ -236,7 +236,7 @@ These files improve:
 
 ---
 
-# 🧩 9. Selenium Script Generation Logic
+# 9. Selenium Script Generation Logic
 
 When a test case is selected:
 
@@ -252,23 +252,3 @@ The script uses:
 * Comments for each step
 
 ---
-
-# 🏁 10. Future Enhancements
-
-* Automatic selector validation
-* Batch test-case generation
-* End-to-end execution inside browser
-* CI/CD integration
-* Docker deployment
-
----
-
-# 🤝 Contributing
-
-Pull requests and improvements are welcome.
-
----
-
-# 📄 License
-
-MIT License
