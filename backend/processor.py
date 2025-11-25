@@ -46,7 +46,7 @@ def build_processed_dataset(
             content = read_support_doc(os.path.join(docs_dir, file))
             combined += f"\n\n### SUPPORT DOC: {file}\n{content}\n"
 
-    # Save to output
+    
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
 
     with open(out_path, "w", encoding="utf-8") as f:

@@ -2,6 +2,7 @@ import os
 import json
 import re
 from backend.rag_agent import call_llm
+import google.generativeai as genai
 
 HTML_DIR = "data/html/"
 
@@ -25,7 +26,6 @@ def load_full_html():
         return ""
 
 
-# 🔥 SUPER AGGRESSIVE ANTI-JSON PROMPT
 SELENIUM_PROMPT = """
 CRITICAL INSTRUCTION: You are now in CODE GENERATION MODE. 
 All previous instructions about JSON output are CANCELLED.
@@ -77,18 +77,12 @@ BEGIN YOUR PYTHON CODE NOW (First line should be an import):
 def generate_selenium_script(test_case: dict):
     """
     Generate Selenium Python script from test case.
-    
-    Args:
-        test_case: Dictionary with keys: id, type, input, steps, expected_output
-    
-    Returns:
-        tuple: (script_code: str, errors: list)
+    Args: test_case: Dictionary with keys: id, type, input, steps, expected_output
+    Returns: tuple: (script_code: str, errors: list)
     """
     
-    # Load HTML for context
     html = load_full_html()
     
-    # Truncate HTML if too long
     if len(html) > 1500:
         body_match = re.search(r'<body[^>]*>(.*?)</body>', html, re.DOTALL | re.IGNORECASE)
         if body_match:
@@ -110,14 +104,14 @@ def generate_selenium_script(test_case: dict):
         html_snippet=html if html else "(No HTML available)"
     )
     
-    import google.generativeai as genai
+    
     model = genai.GenerativeModel("gemini-2.0-flash")
     
     try:
         response = model.generate_content(
             prompt,
             generation_config={
-                "temperature": 0.7,  # Higher temperature for creativity
+                "temperature": 0.7,  
                 "max_output_tokens": 2000,
                 "top_p": 0.95,
                 "top_k": 40
@@ -149,7 +143,6 @@ def generate_selenium_script(test_case: dict):
             ["Empty response from LLM"]
         )
     
-    # Clean up response
     code = raw_response.strip()
     
     # Remove markdown code blocks
@@ -162,19 +155,16 @@ def generate_selenium_script(test_case: dict):
         code = re.sub(r'```', '', code)
         code = code.strip()
     
-    # 🔥 AGGRESSIVE JSON DETECTION
     # Check if entire response is JSON
     try:
         parsed = json.loads(code)
-        # If we get here, it's valid JSON - BAD!
         
-        # Try to extract Python code from JSON if it's there
         if isinstance(parsed, dict) and "script" in parsed:
             code = parsed["script"]
-            print("⚠️ Extracted 'script' field from JSON response")
+            print("Extracted 'script' field from JSON response")
         elif isinstance(parsed, list) and len(parsed) > 0 and isinstance(parsed[0], dict) and "script" in parsed[0]:
             code = parsed[0]["script"]
-            print("⚠️ Extracted 'script' field from JSON array")
+            print("Extracted 'script' field from JSON array")
         else:
             return (
                 "# ERROR: LLM returned pure JSON with no code field\n"
@@ -184,7 +174,6 @@ def generate_selenium_script(test_case: dict):
                 ["LLM returned JSON instead of code"]
             )
     except json.JSONDecodeError:
-        # Good! It's not JSON
         pass
     
     # Validate it looks like Python
@@ -199,7 +188,6 @@ def generate_selenium_script(test_case: dict):
     if code.count("\n") < 5:
         errors.append("Generated code is suspiciously short")
     
-    # If it still looks like JSON structure
     if code.strip().startswith("{") or code.strip().startswith("["):
         errors.append("Response still appears to be JSON-like")
     
@@ -214,23 +202,23 @@ def generate_selenium_script(test_case: dict):
 
 
 # Test function
-if __name__ == "__main__":
-    sample = {
-        "id": "TC001",
-        "type": "positive",
-        "input": "Valid form submission",
-        "steps": [
-            "Open checkout page",
-            "Fill name field",
-            "Fill email field",
-            "Click submit"
-        ],
-        "expected_output": "Form submits successfully"
-    }
+# if __name__ == "__main__":
+#     sample = {
+#         "id": "TC001",
+#         "type": "positive",
+#         "input": "Valid form submission",
+#         "steps": [
+#             "Open checkout page",
+#             "Fill name field",
+#             "Fill email field",
+#             "Click submit"
+#         ],
+#         "expected_output": "Form submits successfully"
+#     }
     
-    script, errs = generate_selenium_script(sample)
-    print("=" * 70)
-    print(script)
-    print("=" * 70)
-    if errs:
-        print("ERRORS:", errs)
+#     script, errs = generate_selenium_script(sample)
+#     print("=" * 70)
+#     print(script)
+#     print("=" * 70)
+#     if errs:
+#         print("ERRORS:", errs)

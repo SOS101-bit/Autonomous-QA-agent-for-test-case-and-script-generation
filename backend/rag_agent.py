@@ -20,7 +20,7 @@ model = genai.GenerativeModel("gemini-2.0-flash")
 
 def call_llm(prompt: str, max_tokens: int = 2000) -> str:
     """
-    Calls Gemini 2.5 Flash with the given prompt.
+    Calls Gemini 2.0 Flash with the given prompt.
     Returns the raw text response.
     """
     response = model.generate_content(
@@ -44,26 +44,22 @@ def call_llm(prompt: str, max_tokens: int = 2000) -> str:
                     if hasattr(part, "text") and part.text:
                         collected.append(part.text)
 
-                # If we got any text, return it
                 if collected:
                     return "\n".join(collected)
 
-        # If no parts received → return empty string instead of crashing
+        
         return ""
 
     except Exception as e:
-        # Never let Gemini crash your server
         return f""  # Safe fallback
 
 
-# ---------------------------------------------------------
-# 2. Extract JSON from LLM output safely
-# ---------------------------------------------------------
+
 def extract_first_json(text: str) -> Any:
     """Extract JSON from LLM output, handling markdown and nested structures."""
     text = text.strip()
 
-    # Remove markdown code blocks
+    
     text = re.sub(r'```json\s*', '', text)
     text = re.sub(r'```\s*', '', text)
     text = text.strip()

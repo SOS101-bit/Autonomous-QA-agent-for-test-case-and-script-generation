@@ -33,22 +33,17 @@ def build_faiss_index(full_text: str):
     """
     Build FAISS vector DB from processed text.
     """
-
-    # 1. Chunk the text
+    
     chunks = chunk_text(full_text)
-
-    # 2. Generate embeddings
     embeddings = embedding_model.encode(chunks)
 
-    # 3. Create FAISS index
     dimension = embeddings.shape[1]
     index = faiss.IndexFlatL2(dimension)
     index.add(embeddings)
 
-    # 4. Save FAISS index to disk
     faiss.write_index(index, FAISS_INDEX_PATH)
 
-    # 5. Save chunks to file
+
     os.makedirs("data", exist_ok=True)
     with open(CHUNKS_FILE, "w", encoding="utf-8") as f:
         for c in chunks:
@@ -67,7 +62,7 @@ def load_faiss_index():
 
     index = faiss.read_index(FAISS_INDEX_PATH)
 
-    # load chunks back
+    
     with open(CHUNKS_FILE, "r", encoding="utf-8") as f:
         raw = f.read()
         chunks = raw.split("-----CHUNK_SEPARATOR-----\n")

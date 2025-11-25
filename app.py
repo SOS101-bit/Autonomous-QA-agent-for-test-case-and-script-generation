@@ -58,11 +58,8 @@ async def upload_files(html_file: UploadFile = File(...), support_docs: list[Upl
 def generate_test_cases_api(query: str = Query(..., description="User query for test case generation")):
     """
     API endpoint to run the RAG test case generator.
-    Example query:
-    {
-        "query": "Generate checkout page test cases"
-    }
     """
+    
     result = generate_test_cases(query)
 
     if result["parsed"] is None:
@@ -87,7 +84,6 @@ class SeleniumRequest(BaseModel):
 
 @app.post("/generate_selenium_script")
 def generate_selenium_api(test_case: dict):
-    """Generate Selenium script for a test case."""
     
     script, errors = generate_selenium_script(test_case)
     

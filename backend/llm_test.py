@@ -23,7 +23,6 @@ def test_llm(prompt: str):
             }
         )
 
-        # NOTE: Gemini structure
         if response.candidates:
             parts = response.candidates[0].content.parts
             out = "".join([p.text for p in parts if hasattr(p, "text") and p.text])
