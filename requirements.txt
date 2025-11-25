@@ -1,0 +1,17 @@
+fastapi==0.110.0
+uvicorn==0.29.0
+streamlit==1.33.0
+requests==2.31.0
+python-multipart==0.0.9
+pydantic==2.6.1
+
+sentence-transformers==2.6.1
+faiss-cpu==1.7.4
+numpy==1.26.4
+pandas==2.2.1
+scikit-learn==1.4.1.post1
+
+beautifulsoup4==4.12.3
+pymupdf==1.23.26
+unstructured==0.12.4
+

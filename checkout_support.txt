@@ -1,0 +1,32 @@
+CHECKOUT PAGE – FUNCTIONAL SPECIFICATIONS
+
+1. USER INPUT FIELDS
+- Full Name: Required. Only alphabetic characters allowed.
+- Email: Required. Must be a valid email format.
+- Phone Number: Optional. If present, must be 10 digits.
+- Shipping Address: Required field.
+- Discount Code: Optional. Must match an existing promo code.
+
+2. BUTTON LOGIC
+- “Apply Discount” button:
+    - Enabled only when discount code field is not empty.
+    - Shows message “Invalid Code” for unknown codes.
+    - On valid code, update total price.
+
+- “Place Order” button:
+    - Enabled only after all required fields are filled.
+    - On click → validate fields → show confirmation message.
+
+3. PRICE CALCULATION RULES
+- Subtotal is the sum of cart items.
+- Valid discount codes:
+    - SAVE10 → 10% off subtotal
+    - FREESHIP → Removes shipping charges
+- Tax (5%) is added after discount is applied.
+
+4. FAILURE CONDITIONS
+- Missing required fields → block checkout
+- Server error on order submission → show “Order Failed”
+- Invalid discount → do not change subtotal and show red message.
+
+END OF DOCUMENT

@@ -1,0 +1,51 @@
+{
+  "business_logic": {
+    "cart": {
+      "items": [
+        {"name": "Item A", "price": 20},
+        {"name": "Item B", "price": 35},
+        {"name": "Item C", "price": 10}
+      ],
+      "quantity_limits": {
+        "min": 1,
+        "max": 10
+      }
+    },
+
+    "discounts": {
+      "SAVE10": {
+        "type": "percentage",
+        "value": 10
+      },
+      "FREESHIP": {
+        "type": "shipping",
+        "value": 0
+      }
+    },
+
+    "shipping_methods": {
+      "standard": {
+        "label": "Standard (Free)",
+        "cost": 0
+      },
+      "express": {
+        "label": "Express ($10)",
+        "cost": 10
+      }
+    },
+
+    "tax_rules": {
+      "type": "percentage",
+      "value": 5
+    },
+
+    "order_submission": {
+      "success_message": "Payment Successful!",
+      "failure_conditions": [
+        "Missing required fields",
+        "Invalid discount code",
+        "Backend server error"
+      ]
+    }
+  }
+}
