@@ -1,5 +1,6 @@
 import os
 from bs4 import BeautifulSoup
+import PyPDF2
 
 def extract_text_from_html(html_path: str) -> str:
     
@@ -15,6 +16,25 @@ def extract_text_from_html(html_path: str) -> str:
     text = soup.get_text(separator="\n")
     text = "\n".join([line.strip() for line in text.splitlines() if line.strip()])
     return text
+
+def extract_text_from_pdf(pdf_path: str) -> str:
+    """
+    Extracts text content from a PDF file.
+    """
+    text = ""
+    try:
+        with open(pdf_path, "rb") as f:
+            pdf_reader = PyPDF2.PdfReader(f)
+            for page_num, page in enumerate(pdf_reader.pages):
+                page_text = page.extract_text()
+                if page_text:
+                    text += f"\n--- Page {page_num + 1} ---\n{page_text}"
+        
+        # Clean up the extracted text
+        text = "\n".join([line.strip() for line in text.splitlines() if line.strip()])
+        return text
+    except Exception as e:
+        return f"Error extracting PDF: {str(e)}"
 
 
 def read_support_doc(path: str) -> str:
