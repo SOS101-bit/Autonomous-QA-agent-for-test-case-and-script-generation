@@ -1,0 +1,23 @@
+# Ignore Python cache files
+__pycache__/
+*.pyc
+
+# Ignore virtual environments
+.venv/
+env/
+venv/
+
+# Ignore data directories
+data/uploads/
+data/html/
+data/vector_store.index
+data/chunks.txt
+
+# Ignore environment variables
+.env
+
+# Ignore unnecessary docs
+*.pdf
+
+# Ignore logs
+*.log
